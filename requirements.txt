@@ -1,0 +1,6 @@
+plotly
+ipyvizzu
+pandas 
+numpy
+seaborn 
+matplotlib
