@@ -1,11 +1,15 @@
 import streamlit as st
+from streamlit.components.v1 import html
 import pandas as pd
 import numpy as np
 import plotly.express as px
 from ipyvizzu import Chart, Data, Config, Style, DisplayTarget
 from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
+import ipyvizzu as iz
 
+
+st.set_page_config(layout='wide',page_title='World Cup Analysis')
 
 # Custom CSS
 st.markdown(
@@ -17,7 +21,7 @@ st.markdown(
 )
 
 def data_upload():
-    bat = pd.read_csv("batting_records.csv")
+    bat = pd.read_csv("dataset/batting_records.csv")
     bowl = pd.read_csv("dataset/bowling_records.csv")
     return bat,bowl
 
@@ -29,11 +33,47 @@ st.title("World Cup Analysis :trophy:")
 records_box = st.sidebar.selectbox("Select Records",["Batting Records","Bowling Records"])
 
 if records_box == 'Batting Records':
+    # KPI's
+    total_matches = int(bat['mat'].sum())
+    total_centuries = int(bat['100'].sum())
+    total_sixes = int(bat['6s'].sum())
+    total_fours = int(bat['4s'].sum())
+    total_ducks = int(bat['0'].sum())
+
+    first_col,sec_col,third_col,fourth_col,fifth_col = st.columns(5)
+    with first_col:
+        st.subheader("Total Matches:")
+        st.subheader(total_matches)
+
+    with sec_col:
+        st.subheader("Total Centuries:")
+        st.subheader(total_centuries)
+
+    with third_col:
+        st.subheader("Total Sixes:")
+        st.subheader(total_sixes)
+
+    with fourth_col:
+        st.subheader("Total Fours:")
+        st.subheader(total_fours)
+
+    with fifth_col:
+        st.subheader("Total Ducks:")
+        st.subheader(total_ducks)
+    
+    st.markdown("---")
+    
+    # AgGrid Table
     gd = GridOptionsBuilder.from_dataframe(bat)
     gd.configure_pagination(enabled=True)
     gd.configure_default_column(editable=True,groupable=True)
     gridoptions = gd.build() 
     AgGrid(bat,gridOptions=gridoptions,height=500,enable_quicksearch=True)
+
+    
+    
+    
+    
 
 if records_box == 'Bowling Records':
     gd = GridOptionsBuilder.from_dataframe(bowl)
