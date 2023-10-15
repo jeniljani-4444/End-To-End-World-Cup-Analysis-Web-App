@@ -70,10 +70,16 @@ if records_box == 'Batting Records':
     gridoptions = gd.build() 
     AgGrid(bat,gridOptions=gridoptions,height=500,enable_quicksearch=True)
 
+    st.markdown("---")
     
+    # Bar Chart
+    st.subheader("Top 10 players with most number of matches")
+    match_counts = bat.groupby('player')[['mat','inns']].sum().sort_values('mat',ascending=False).head(10)
     
+    match_fig = px.bar(match_counts,x=match_counts.index,y='mat',
+                       color='inns',height=450,width=1100,barmode='group')
     
-    
+    st.plotly_chart(match_fig,use_container_width=True)
 
 if records_box == 'Bowling Records':
     gd = GridOptionsBuilder.from_dataframe(bowl)
