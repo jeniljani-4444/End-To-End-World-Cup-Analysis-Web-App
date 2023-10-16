@@ -41,6 +41,7 @@ if records_box == 'Batting Records':
     total_ducks = int(bat['0'].sum())
 
     first_col,sec_col,third_col,fourth_col,fifth_col = st.columns(5)
+    
     with first_col:
         st.subheader("Total Matches:")
         st.subheader(total_matches)
@@ -61,25 +62,35 @@ if records_box == 'Batting Records':
         st.subheader("Total Ducks:")
         st.subheader(total_ducks)
     
-    st.markdown("---")
     
+
     # AgGrid Table
+    st.markdown("---")
     gd = GridOptionsBuilder.from_dataframe(bat)
     gd.configure_pagination(enabled=True)
     gd.configure_default_column(editable=True,groupable=True)
     gridoptions = gd.build() 
     AgGrid(bat,gridOptions=gridoptions,height=500,enable_quicksearch=True)
 
-    st.markdown("---")
+    
     
     # Bar Chart
+    st.markdown("---")
+    
     st.subheader("Top 10 players with most number of matches")
     match_counts = bat.groupby('player')[['mat','inns']].sum().sort_values('mat',ascending=False).head(10)
-    
+        
     match_fig = px.bar(match_counts,x=match_counts.index,y='mat',
-                       color='inns',height=450,width=1100,barmode='group')
-    
+                        color='inns',height=450,width=1100,barmode='group')
+        
     st.plotly_chart(match_fig,use_container_width=True)
+
+    st.subheader("Runs scored with respect to years")
+    span_matches = bat.groupby('span')[['mat']].sum()
+    span_graph = px.line(span_matches, x=span_matches.index,y='mat',markers=True)
+    st.plotly_chart(span_graph,use_container_width=True)
+
+    
 
 if records_box == 'Bowling Records':
     gd = GridOptionsBuilder.from_dataframe(bowl)
