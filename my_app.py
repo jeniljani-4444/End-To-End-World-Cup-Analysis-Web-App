@@ -3,10 +3,8 @@ from streamlit.components.v1 import html
 import pandas as pd
 import numpy as np
 import plotly.express as px
-from ipyvizzu import Chart, Data, Config, Style, DisplayTarget
 from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
-import ipyvizzu as iz
 
 
 st.set_page_config(layout='wide',page_title='World Cup Analysis')
@@ -76,7 +74,6 @@ if records_box == 'Batting Records':
     
     # Bar Chart
     st.markdown("---")
-    
     st.subheader("Top 10 players with most number of matches")
     match_counts = bat.groupby('player')[['mat','inns']].sum().sort_values('mat',ascending=False).head(10)
         
@@ -84,11 +81,33 @@ if records_box == 'Batting Records':
                         color='inns',height=450,width=1100,barmode='group')
         
     st.plotly_chart(match_fig,use_container_width=True)
-
+    
+    # Line Chart
+    st.markdown('---')
     st.subheader("Runs scored with respect to years")
-    span_matches = bat.groupby('span')[['mat']].sum()
-    span_graph = px.line(span_matches, x=span_matches.index,y='mat',markers=True)
+    span_matches = bat.groupby('span')[['runs']].sum()
+    span_graph = px.line(span_matches, x=span_matches.index,y='runs',markers=True)
     st.plotly_chart(span_graph,use_container_width=True)
+
+    
+        
+
+    # Pie chart
+    st.markdown('---')
+    pie_col_first,pie_col_sec = st.columns(2)
+    
+    with pie_col_first:
+        st.subheader('Top 5 five players with most number of 4s')
+        fours_count = bat.groupby('player')[['4s']].sum().sort_values('4s',ascending=False).head()
+        pie_chart_fours = px.pie(fours_count,names=fours_count.index,values='4s',hole=0.4)
+        st.plotly_chart(pie_chart_fours,use_container_width=True)
+
+    with pie_col_sec:
+        st.subheader('Top 5 five players with most number of 6s')
+        sixes_count = bat.groupby('player')[['6s']].sum().sort_values('6s',ascending=False).head()
+        pie_chart_sixes = px.pie(sixes_count,names=sixes_count.index,values='6s',hole=0.4)
+        st.plotly_chart(pie_chart_sixes,use_container_width=True)
+
 
     
 
