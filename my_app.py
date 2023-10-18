@@ -109,7 +109,30 @@ if records_box == 'Batting Records':
         st.plotly_chart(pie_chart_sixes,use_container_width=True)
 
 
+    # Tree Map
+    st.markdown('---')
+    st.subheader("Runs scored by each player of that particular country")
+    tree_map_plot = px.treemap(bat,path=[px.Constant("country"),'country','player'],values='runs',
+                               color='player',color_continuous_scale='RdBu',
+                               )
+    tree_map_plot.update_layout(margin = dict(t=50, l=25, r=25, b=25))
+    st.plotly_chart(tree_map_plot,use_container_width=True)
+
+    # Two Bar Charts
+    st.markdown("---")
+    st.subheader("Top players with highest strike rate in world cup")
+    first_df,sec_chart = st.columns(2)
+
     
+    with first_df:
+        top_five_sr = bat.groupby('player')[['player','country','mat','sr']].max().sort_values('sr',ascending=False).head(10).reset_index(drop=True)  
+        st.dataframe(top_five_sr)
+
+    with sec_chart:
+        sr_bar_chart = bat.groupby('player')[['player','country','sr']].max().sort_values('sr',ascending=False).head()
+        sr_fig = px.bar(sr_bar_chart,x='player',y='sr',height=400,width=500)
+        st.plotly_chart(sr_fig,use_container_widht=True)
+
 
 if records_box == 'Bowling Records':
     gd = GridOptionsBuilder.from_dataframe(bowl)
