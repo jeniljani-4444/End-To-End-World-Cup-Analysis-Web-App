@@ -191,9 +191,36 @@ if records_box == 'Batting Records':
     st.plotly_chart(scatter_plot, use_container_width=True)
 
 if records_box == 'Bowling Records':
+    # Bowling KPI's
+    total_matches = int(bowl['mat'].sum())
+    total_overs = int(bowl['overs'].sum())
+    total_maidens = int(bowl['mdns'].sum())
+    total_wickets = int(bowl['wkts'].sum())
+    total_runs_conceded = int(bowl['runs'].sum())
+
+    col1,col2,col3,col4,col5 = st.columns(5)
+
+    with col1:
+        st.subheader("Total Matches:")
+        st.subheader(total_matches)
+    with col2:
+        st.subheader("Total Overs:")
+        st.subheader(total_overs)
+    with col3:
+        st.subheader("Total Maidens:")
+        st.subheader(total_maidens)
+    with col4:
+        st.subheader("Total Wickets:")
+        st.subheader(total_wickets)
+    with col5:
+        st.subheader("Runs Conceded:")
+        st.subheader(total_runs_conceded)
+
     gd = GridOptionsBuilder.from_dataframe(bowl)
     gd.configure_grid_options(alwaysShowHorizontalScroll=True)
     gd.configure_pagination(enabled=True)
     gd.configure_default_column(editable=True, groupable=True)
     gridoptions = gd.build()
     AgGrid(bowl, enable_quicksearch=True, height=500, gridOptions=gridoptions)
+
+    
