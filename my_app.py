@@ -84,7 +84,7 @@ if records_box == 'Batting Records':
     ).sort_values('mat', ascending=False).head(10)
 
     match_fig = px.bar(match_counts, x=match_counts.index, y='mat',
-                       color='inns', height=450, width=1100, barmode='group')
+                       color='inns', height=450, width=1100, barmode='group',text_auto=True)
 
     st.plotly_chart(match_fig, use_container_width=True)
 
@@ -223,4 +223,11 @@ if records_box == 'Bowling Records':
     gridoptions = gd.build()
     AgGrid(bowl, enable_quicksearch=True, height=500, gridOptions=gridoptions)
 
-    
+    # Bar Chart for matches-----------------------------------------------------------
+    st.markdown('---')
+    st.subheader('Top 10 bowlers with most number of matches')
+    most_matches = bowl.nlargest(10,columns='mat')[['player','mat','inns','country']].sort_values('mat',ascending=True)
+    color_scales = st.selectbox('Select color for bar chart',['viridis','sunsetdark','redor','rdpu','rdbu',
+                                                              'ylgnbu','ylgn','algae','amp','ice','matter','solar','haline','thermal','icefire'])
+    fig = px.bar(most_matches,x='player',y='mat',hover_data='country',text_auto=True,color='inns',color_continuous_scale=color_scales)
+    st.plotly_chart(fig,use_container_width=True) 
