@@ -7,6 +7,7 @@ from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
+import preprocessor
 
 st.set_page_config(
     page_title="World Cup Analysis",
@@ -25,12 +26,24 @@ st.markdown(
 
 
 def data_upload():
-    bat = pd.read_csv("dataset/batting_records.csv")
-    bowl = pd.read_csv("dataset/bowling_records.csv")
-    return bat, bowl
+    bat = preprocessor.batting_data_cleaning()
+    bowl = preprocessor.bowl_data_cleaning()
+
+    return bat,bowl
+
+bat,bowl = data_upload()
+
+   
+
+# def data_upload():
+#     bat = pd.read_csv("dataset/batting_records.csv")
+#     bowl = pd.read_csv("dataset/bowling_records.csv")
 
 
-bat, bowl = data_upload()
+#     return bat, bowl
+
+
+# bat, bowl = data_upload()
 
 st.title("World Cup Analysis :trophy:")
 
