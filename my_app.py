@@ -1,7 +1,6 @@
 import streamlit as st
 from streamlit.components.v1 import html
 import pandas as pd
-from plotly.subplots import make_subplots
 import numpy as np
 import plotly.express as px
 from st_aggrid import AgGrid
@@ -38,6 +37,11 @@ st.title("World Cup Analysis :trophy:")
 
 records_box = st.sidebar.selectbox(
     "Select Records", ["Batting Records", "Bowling Records"])
+
+color_scales = st.sidebar.selectbox('Select color for bar chart',['viridis','sunsetdark','redor','rdpu','rdbu',
+                                                              'ylgnbu','ylgn','algae','amp','ice','matter','solar','haline','thermal','icefire'])
+
+
 
 if records_box == 'Batting Records':
     # KPI's
@@ -227,7 +231,34 @@ if records_box == 'Bowling Records':
     st.markdown('---')
     st.subheader('Top 10 bowlers with most number of matches')
     most_matches = bowl.nlargest(10,columns='mat')[['player','mat','inns','country']].sort_values('mat',ascending=True)
-    color_scales = st.selectbox('Select color for bar chart',['viridis','sunsetdark','redor','rdpu','rdbu',
-                                                              'ylgnbu','ylgn','algae','amp','ice','matter','solar','haline','thermal','icefire'])
     fig = px.bar(most_matches,x='player',y='mat',hover_data='country',text_auto=True,color='inns',color_continuous_scale=color_scales)
     st.plotly_chart(fig,use_container_width=True) 
+
+    # Bar Chart for highest wicket taking countries-----------------------------------------------------------
+    st.markdown('---')
+    st.subheader('Highest wicket taking countries in world cup')
+    most_wkts_countries = bowl.groupby('country')[['wkts']].sum().sort_values('wkts')
+    fig = px.bar(most_wkts_countries,x=most_wkts_countries.index,y='wkts',color='wkts',text_auto=True,
+                 color_continuous_scale=color_scales)
+    st.plotly_chart(fig,use_container_width=True) 
+
+
+    # Donut charts for highest maiden overs-----------------------------------------------------------
+    st.markdown('---')
+    donut_col1, donut_col2 = st.columns(2)
+
+    with donut_col1:
+        st.subheader('Top 5 five bowlers with most no. of maidens')
+        maiden_counts = bowl.nlargest(n=5,columns='mdns')[['player','mdns']]
+        donut_chart_maiden = px.pie(
+            maiden_counts, names='player', values='mdns', hole=0.4)
+        st.plotly_chart(donut_chart_maiden, use_container_width=True)
+
+    with donut_col2:
+        st.subheader('Top 5 five bowlers with most runs conceded')
+        most_runs_bowler = bowl.nlargest(n=5,columns='runs')[['player','runs']]
+        donut_chart_runs_conc = px.pie(
+            most_runs_bowler, names='player', values='runs', hole=0.4)
+        st.plotly_chart(donut_chart_runs_conc, use_container_width=True)
+
+    
