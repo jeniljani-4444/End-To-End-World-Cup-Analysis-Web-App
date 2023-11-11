@@ -41,11 +41,13 @@ def bowl_data_cleaning():
     df_bowl['4'] = df_bowl['4'].replace('-',0).astype('int')
     df_bowl['5'] = df_bowl['5'].replace('-',0).astype('int')
 
-    # df_bowl['mat'] = df_bowl['mat'].str.replace('*','').astype('int')
+    df_bowl['mat'] = df_bowl['mat'].str.replace('*','').astype('int')
 
     df_bowl = df_bowl.reindex(columns=['player','country','span','mat','inns','balls','overs','mdns','runs','wkts','bbi', 'ave','econ','4','5'])
 
-    
+    df_bowl['year_one'] = df_bowl.span.str.split('-').str.get(0).astype('int')
+    df_bowl['year_two'] = df_bowl.span.str.split('-').str.get(1).astype('int')
+    df_bowl['year_diff'] = df_bowl['year_two'] - df_bowl['year_one']
 
     df_bowl.to_csv("dataset/bowling_records.csv",index=False)
 

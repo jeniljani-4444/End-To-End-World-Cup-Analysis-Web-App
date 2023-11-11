@@ -176,7 +176,7 @@ if records_box == 'Batting Records':
         sr_bar_chart = bat.groupby('player')[['player', 'country', 'sr']].max(
         ).sort_values('sr', ascending=False).head()
         sr_fig = px.bar(sr_bar_chart, x='player',
-                        y='sr', height=400, width=500)
+                        y='sr')
         st.plotly_chart(sr_fig, use_container_widht=True)
 
     # Not Out and High Score BarChart----------------------------------------------------
@@ -274,4 +274,39 @@ if records_box == 'Bowling Records':
             most_runs_bowler, names='player', values='runs', hole=0.4)
         st.plotly_chart(donut_chart_runs_conc, use_container_width=True)
 
+    # Bar Charts for economy rates-----------------------------------------------------------
+    st.markdown('---')
+    bar_col1, bar_col2 = st.columns(2)
+
+    with bar_col1:
+        st.subheader('Top 5 five bowlers with highest economy rate')
+        highest_econ = bowl.nlargest(n=5,columns='econ')[['player','country','econ']]
+        bar_chart_econ_high = px.bar(
+           highest_econ , x='econ', y='player', color='country')
+        st.plotly_chart(bar_chart_econ_high, use_container_width=True)
+
+    with bar_col2:
+        st.subheader('Top 5 five bowlers with lowest economy rate')
+        lowest_econ = bowl.nsmallest(n=5,columns='econ')[['player','country','econ']]
+        bar_chart_econ_low = px.bar(
+            lowest_econ, x='econ', y='player', color='country')
+        st.plotly_chart(bar_chart_econ_low, use_container_width=True)
+
     
+    # Bar chart for highest wicket taking bowlers-----------------------------------------------------------
+
+    bar_col1, bar_col2 = st.columns(2)
+
+    with bar_col1:
+        st.subheader('Top 5 five highest wicket taking bowlers')
+        highest_wkt = bowl.nlargest(n=5,columns='wkts')[['player','country','wkts']]
+        bar_chart_hight_wkt = px.bar(
+           highest_wkt , x='wkts', y='player', color='country')
+        st.plotly_chart(bar_chart_hight_wkt, use_container_width=True)
+
+    with bar_col2:
+        st.subheader('Top 5 five bowlers with highest average')
+        best_avg = bowl.nlargest(n=5,columns='ave')[['player','country','ave']]
+        bar_chart_avg = px.bar(
+            best_avg, x='ave', y='player', color='country')
+        st.plotly_chart(bar_chart_avg, use_container_width=True)
