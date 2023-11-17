@@ -35,15 +35,6 @@ bat,bowl = data_upload()
 
    
 
-# def data_upload():
-#     bat = pd.read_csv("dataset/batting_records.csv")
-#     bowl = pd.read_csv("dataset/bowling_records.csv")
-
-
-#     return bat, bowl
-
-
-# bat, bowl = data_upload()
 
 st.title("World Cup Analysis :trophy:")
 
@@ -176,7 +167,7 @@ if records_box == 'Batting Records':
         sr_bar_chart = bat.groupby('player')[['player', 'country', 'sr']].max(
         ).sort_values('sr', ascending=False).head()
         sr_fig = px.bar(sr_bar_chart, x='player',
-                        y='sr')
+                        y='sr',width=520)
         st.plotly_chart(sr_fig, use_container_widht=True)
 
     # Not Out and High Score BarChart----------------------------------------------------
@@ -310,3 +301,10 @@ if records_box == 'Bowling Records':
         bar_chart_avg = px.bar(
             best_avg, x='ave', y='player', color='country')
         st.plotly_chart(bar_chart_avg, use_container_width=True)
+
+    # Best bowling strike rates-----------------------------------------------
+    st.markdown('---')
+    st.subheader('Top 5 five bowlers with highest bowling strike rate')
+    strike_rates = bowl.nlargest(n=5,columns='sr')[['player','sr','country']]
+    fig = px.bar(strike_rates,x='player',y='sr',text_auto=True,color='sr',color_continuous_scale=color_scales,hover_data='country')
+    st.plotly_chart(fig,use_container_width=True)

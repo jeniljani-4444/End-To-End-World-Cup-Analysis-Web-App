@@ -7,7 +7,7 @@ def batting_data_cleaning():
     df_runs['country'] = df_runs['player'].str.split('(').str.get(1).str.replace(')','')
     df_runs['player'] = df_runs['player'].str.split('(').str.get(0)
 
-    df_runs['mat'] = df_runs['mat'].str.replace('*','').astype('int')
+    # df_runs['mat'] = df_runs['mat'].str.replace('*','').astype('int')
     df_runs['hs'] = df_runs['hs'].str.replace('*','').astype('int')
 
     df_runs['50'] = df_runs['50'].replace('-',0).astype('int')
@@ -41,9 +41,10 @@ def bowl_data_cleaning():
     df_bowl['4'] = df_bowl['4'].replace('-',0).astype('int')
     df_bowl['5'] = df_bowl['5'].replace('-',0).astype('int')
 
-    df_bowl['mat'] = df_bowl['mat'].str.replace('*','').astype('int')
+    # df_bowl['mat'] = df_bowl['mat'].str.replace('*','').astype('int')
 
-    df_bowl = df_bowl.reindex(columns=['player','country','span','mat','inns','balls','overs','mdns','runs','wkts','bbi', 'ave','econ','4','5'])
+    df_bowl = df_bowl.reindex(columns=['player','country','span','mat','inns','balls','overs','mdns','runs','wkts',
+                                       'sr','bbi', 'ave','econ','4','5'])
 
     df_bowl['year_one'] = df_bowl.span.str.split('-').str.get(0).astype('int')
     df_bowl['year_two'] = df_bowl.span.str.split('-').str.get(1).astype('int')
