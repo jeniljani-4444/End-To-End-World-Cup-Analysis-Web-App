@@ -27,7 +27,7 @@ jobs:
       run: streamlit run my_app.py  # replace with your Streamlit app file
 
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
+      uses: peaceiris/actions-gh-pages@v3.9.3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./C:\Users\jenil\OneDrive\Desktop\Github       Projects\End-To-End-World-Cup-Analysis-Web-App\my_app.py  # replace with the path to your Streamlit app files
