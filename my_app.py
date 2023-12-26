@@ -33,7 +33,6 @@ def data_upload():
 
 bat,bowl = data_upload()
 
-   
 
 
 st.title("World Cup Analysis :trophy:")
