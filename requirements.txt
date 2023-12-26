@@ -1,9 +1,9 @@
-plotly== 5.17.0
-pandas== 2.1.1 
-numpy==1.26.0 
-seaborn == 0.13.0 
-matplotlib==3.8.0
-streamlit-aggrid== 0.3.4.post3
-lxml == 4.9.3
+plotly
+pandas
+numpy 
+seaborn 
+matplotlib
+streamlit-aggrid
+lxml 
 streamlit
 gunicorn
