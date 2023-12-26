@@ -29,8 +29,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+<<<<<<< HEAD
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
+=======
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.10.0
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Streamlit app
+      run: streamlit run my_app.py  # replace with your Streamlit app file
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3.9.3
+>>>>>>> 2c57991acbafdce9e4628095b54e83170a3c6a5f
       with:
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         publish_dir: ./streamlit-app
