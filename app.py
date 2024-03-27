@@ -9,6 +9,7 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import preprocessor
 
+
 st.set_page_config(
     page_title="World Cup Analysis",
     page_icon=":trophy:",
@@ -84,7 +85,7 @@ if records_box == 'Batting Records':
     gridoptions = gd.build()
     AgGrid(bat, gridOptions=gridoptions, height=500, enable_quicksearch=True)
 
-    # Bar Chart----------------------------------------------------
+    # Bar Chart-------------------------------------------------------
     st.markdown("---")
     st.subheader("Top 10 batsman with most number of matches")
     match_counts = bat.groupby('player')[['mat', 'inns']].sum(
@@ -307,3 +308,5 @@ if records_box == 'Bowling Records':
     strike_rates = bowl.nlargest(n=5,columns='sr')[['player','sr','country']]
     fig = px.bar(strike_rates,x='player',y='sr',text_auto=True,color='sr',color_continuous_scale=color_scales,hover_data='country')
     st.plotly_chart(fig,use_container_width=True)
+
+
