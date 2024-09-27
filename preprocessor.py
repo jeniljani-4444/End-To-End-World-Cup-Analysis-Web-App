@@ -9,7 +9,7 @@ def batting_data_cleaning():
 
     # df_runs['mat'] = df_runs['mat'].str.replace('*','').astype('int')
     df_runs['hs'] = df_runs['hs'].str.replace('*','').astype('int')
-    # df_runs['no'] = df_runs['no'].str.replace('-','0').astype('int')
+    df_runs['no'] = df_runs['no'].str.replace('-','0').astype('int')
 
     df_runs['50'] = df_runs['50'].replace('-',0).astype('int')
     df_runs['100'] = df_runs['100'].replace('-',0).astype('int')
