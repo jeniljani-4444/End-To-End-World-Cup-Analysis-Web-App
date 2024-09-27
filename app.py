@@ -1,12 +1,12 @@
-import streamlit as st
-from streamlit.components.v1 import html
-import pandas as pd
-import numpy as np
-import plotly.express as px
-from st_aggrid import AgGrid
-from st_aggrid.grid_options_builder import GridOptionsBuilder
-import plotly.graph_objects as go
-import matplotlib.pyplot as plt
+import streamlit as st #type: ignore
+from streamlit.components.v1 import html#type: ignore
+import pandas as pd#type: ignore
+import numpy as np#type: ignore
+import plotly.express as px#type: ignore
+from st_aggrid import AgGrid#type: ignore
+from st_aggrid.grid_options_builder import GridOptionsBuilder#type: ignore
+import plotly.graph_objects as go#type: ignore
+import matplotlib.pyplot as plt#type: ignore
 import preprocessor
 
 # Cricket Vision
@@ -60,11 +60,11 @@ if records_box == 'Batting Records':
     first_col, sec_col, third_col, fourth_col, fifth_col = st.columns(5)
 
     with first_col:
-        st.subheader("Total Matches:")
+        st.subheader("Matches:") 
         st.subheader(total_matches)
 
     with sec_col:
-        st.subheader("Total Centuries:")
+        st.subheader("Centuries:")
         st.subheader(total_centuries)
 
     with third_col:
@@ -237,7 +237,7 @@ if records_box == 'Bowling Records':
     st.markdown('---')
     st.subheader('Top 10 bowlers with most number of matches')
     most_matches = bowl.nlargest(10,columns='mat')[['player','mat','inns','country']].sort_values('mat',ascending=True)
-    fig = px.bar(most_matches,x='player',y='mat',hover_data='country',text_auto=True,color='inns',color_continuous_scale=color_scales)
+    fig = px.bar(most_matches,x='player',y='mat',text_auto=True,color='inns',color_continuous_scale=color_scales)
     st.plotly_chart(fig,use_container_width=True) 
 
     # Bar Chart for highest wicket taking countries-----------------------------------------------------------
@@ -308,7 +308,7 @@ if records_box == 'Bowling Records':
     st.markdown('---')
     st.subheader('Top 5 five bowlers with highest bowling strike rate')
     strike_rates = bowl.nlargest(n=5,columns='sr')[['player','sr','country']]
-    fig = px.bar(strike_rates,x='player',y='sr',text_auto=True,color='sr',color_continuous_scale=color_scales,hover_data='country')
+    fig = px.bar(strike_rates,x='player',y='sr',text_auto=True,color='sr',color_continuous_scale=color_scales)
     st.plotly_chart(fig,use_container_width=True)
 
 

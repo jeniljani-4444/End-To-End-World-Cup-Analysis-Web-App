@@ -1,5 +1,5 @@
-import pandas as pd
-import numpy as np
+import pandas as pd#type: ignore
+import numpy as np#type: ignore
 
 def batting_data_cleaning():
     df_runs = pd.read_html("https://www.espncricinfo.com/records/trophy/batting-most-runs-career/world-cup-12")[0]
